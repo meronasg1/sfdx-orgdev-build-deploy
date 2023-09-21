@@ -1,9 +1,6 @@
 const core = require('@actions/core')
 const execCommand = require('./exec-command.js');
 
-const core = __webpack_require__(2186);
-const execCommand = __webpack_require__(5505);
-
 var fnInstallSFDX = function () {
     try {
         core.info('=== Downloading SFDX cli ===');
