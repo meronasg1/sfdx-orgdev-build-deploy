@@ -13302,6 +13302,15 @@ var fnInstallSFDX = function () {
 
         core.info('=== SFDX cli installed ===');
     } 
+	catch (error) {
+        // Log and handle errors for each command separately
+        if (error && error.message) {
+            core.error(`An error occurred: ${error.message}`);
+        } else {
+            // Handle other specific errors here if needed
+            core.error('An unknown error occurred.');
+        }
+    }
 };
 
 
