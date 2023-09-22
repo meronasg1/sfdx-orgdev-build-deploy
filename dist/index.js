@@ -13387,11 +13387,10 @@ let login = function (cert, login) {
         execCommand.run('sfdx', sfdxCommand);
         
         core.info('===== After authenticating');
-    } catch (error) {
-        // Handle any errors that occur during the authentication process
-        core.error('Error during authentication:');
-        core.error(error.message);
-    }
+    }  catch (authError) {
+    core.error('Error during authentication:');
+    core.error(authError.message);
+}
 };
 
 let deploy = function (deploy){
