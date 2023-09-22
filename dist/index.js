@@ -13381,7 +13381,10 @@ let login = function (cert, login) {
             '--username', login.username,
             '--alias', 'sfdc'
         ];
-        core.debug('sfdx ' + sfdxCommand.join(' '));
+        core.info('sfdx ' + sfdxCommand.join(' '));
+
+	core.info('Executing Salesforce CLI command:');
+	
 
         // Execute the sfdx command
         execCommand.run('sfdx', sfdxCommand);
@@ -13389,7 +13392,7 @@ let login = function (cert, login) {
         core.info('===== After authenticating');
     }  catch (authError) {
     core.error('Error during authentication:');
-    core.error(authError.message);
+    core.error(authError);
 }
 };
 
