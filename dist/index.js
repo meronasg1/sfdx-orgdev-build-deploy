@@ -13369,7 +13369,9 @@ let login = function (cert, login){
     core.info('==== Authenticating in the target org');
     const instanceurl = login.orgType === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
     core.info('Instance URL: ' + instanceurl);
-    execCommand.run('sfdx', ['force:auth:jwt:grant', '--instance-url', instanceurl, '--client-id', login.clientId, '--jwt-key-file', 'server.key', '-o', login.username, '--alias', 'sfdc']);
+	execCommand.run('sfdx', ['org', 'login', 'jwt', '--instance-url', instanceurl, '--client-id', login.clientId, '--jwt-key-file', 'server.key', '--username', login.username, '--alias', 'sfdc']);
+ core.info('===== After authenticating' );
+
 };
 
 let deploy = function (deploy){
