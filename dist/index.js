@@ -13387,7 +13387,7 @@ let login = function (cert, login) {
 	
 
         // Execute the sfdx command
-        execCommand.run('sfdx', sfdxCommand);
+        execCommand.run('sf', sfdxCommand);
         
         core.info('===== After authenticating');
     }  catch (authError) {
