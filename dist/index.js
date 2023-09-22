@@ -13361,17 +13361,37 @@ let getApexTestClass = function(manifestpath, classesPath, defaultTestClass){
     return testClasses.join(",");
 }
 
-let login = function (cert, login){
-    core.info("=== login ===");
-    core.debug('=== Decrypting certificate');
-    execCommand.run('openssl', ['enc', '-nosalt', '-aes-256-cbc', '-d', '-in', cert.certificatePath, '-out', 'server.key', '-base64', '-K', cert.decryptionKey, '-iv', cert.decryptionIV]);
+let login = function (cert, login) {
+    try {
+        core.info("=== login ===");
+        core.debug('=== Decrypting certificate');
+        execCommand.run('openssl', ['enc', '-nosalt', '-aes-256-cbc', '-d', '-in', cert.certificatePath, '-out', 'server.key', '-base64', '-K', cert.decryptionKey, '-iv', cert.decryptionIV]);
 
-    core.info('==== Authenticating in the target org');
-    const instanceurl = login.orgType === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
-    core.info('Instance URL: ' + instanceurl);
-	execCommand.run('sfdx', ['org', 'login', 'jwt', '--instance-url', instanceurl, '--client-id', login.clientId, '--jwt-key-file', 'server.key', '--username', login.username, '--alias', 'sfdc']);
- core.info('===== After authenticating' );
+        core.info('==== Authenticating in the target org');
+        const instanceurl = login.orgType === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
+        core.info('Instance URL: ' + instanceurl);
+        
+        // Add debug logging for the sfdx command
+        core.debug('Executing sfdx org login jwt command:');
+        const sfdxCommand = [
+            'org', 'login', 'jwt',
+            '--instance-url', instanceurl,
+            '--client-id', login.clientId,
+            '--jwt-key-file', 'server.key',
+            '--username', login.username,
+            '--alias', 'sfdc'
+        ];
+        core.debug('sfdx ' + sfdxCommand.join(' '));
 
+        // Execute the sfdx command
+        execCommand.run('sfdx', sfdxCommand);
+        
+        core.info('===== After authenticating');
+    } catch (error) {
+        // Handle any errors that occur during the authentication process
+        core.error('Error during authentication:');
+        core.error(error.message);
+    }
 };
 
 let deploy = function (deploy){
