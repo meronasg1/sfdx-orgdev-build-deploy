@@ -13285,7 +13285,7 @@ const core = __webpack_require__(2186)
 const execCommand = __webpack_require__(5505);
 
 var fnInstallSFDX = function () {
-    try {
+    
         core.info('=== Downloading SFDX cli ===');
         execCommand.run('wget', ['https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz']);
         
@@ -13301,16 +13301,8 @@ var fnInstallSFDX = function () {
         process.env.PATH = `${newPath}:${process.env.PATH}`;
 
         core.info('=== SFDX cli installed ===');
-    } 
-	catch (error) {
-        // Log and handle errors for each command separately
-        if (error && error.message) {
-            core.error(`An error occurred: ${error.message}`);
-        } else {
-            // Handle other specific errors here if needed
-            core.error('An unknown error occurred.');
-        }
-    }
+    
+	
 };
 
 
