@@ -14,16 +14,11 @@ var fnInstallSFDX = function () {
         
         core.info('=== Running Install Script ===');
         
-        execCommand.run('export',['PATH=./sfdx-cli/bin:$PATH']);
+       const path = require('path');
+        const newPath = path.join(__dirname, 'sfdx-cli', 'bin');
+        process.env.PATH = `${newPath}:${process.env.PATH}`;
 
         core.info('=== SFDX cli installed ===');
-    } catch (error) {
-        // Log and handle errors for each command separately
-        if (error.message) {
-            core.error(`An error occurred: ${error.message}`);
-        }
-        
-        // Handle other specific errors here if needed
     }
 };
 
