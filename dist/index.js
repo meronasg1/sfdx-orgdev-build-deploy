@@ -13381,13 +13381,13 @@ let login = function (cert, login) {
             '--username', login.username,
             '--alias', 'sfdc'
         ];
-        core.info('sfdx ' + sfdxCommand.join(' '));
+        core.info('sf' + sfdxCommand.join(' '));
 
 	core.info('Executing Salesforce CLI command:');
 	
 
         // Execute the sfdx command
-        execCommand.run('sf ', sfdxCommand);
+        execCommand.run('sf', sfdxCommand);
         
         core.info('===== After authenticating');
     }  catch (authError) {
