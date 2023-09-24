@@ -13376,8 +13376,8 @@ let login = function (cert, login) {
         const sfdxCommand = [
             'org', 'login', 'jwt',
             '--instance-url', instanceurl,
-            '--client-id', login.clientId,
-            '--jwt-key-file', 'server.key',
+            '--clientid', login.clientId,
+            '--keyfile', 'server.key',
             '--username', login.username,
             '--alias', 'sfdc'
         ];
