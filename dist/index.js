@@ -13386,8 +13386,14 @@ let login = function (cert, login) {
 	core.info('Executing Salesforce CLI command:');
 	
 
-        // Execute the sfdx command
-        execCommand.run('sf', sfdxCommand);
+         // Execute the sfdx command
+        const sfdxResult = execCommand.run('sf', sfdxCommand);
+        
+        // Log the standard output and error
+        core.info('Command Output:');
+        core.info(sfdxResult.stdout);
+        core.info('Command Error:');
+        core.info(sfdxResult.stderr);
         
         core.info('===== After authenticating');
     }  catch (authError) {
