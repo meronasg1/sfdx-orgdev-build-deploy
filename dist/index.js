@@ -13396,10 +13396,10 @@ let login = function (cert, login) {
         core.info(sfdxResult.stderr);
         
         core.info('===== After authenticating');
-    }  catch (authError) {
-    core.error('Error during authentication:');
-    core.error(authError);
-}
+    }  catch (error) {
+  	core.setFailed(error.message);
+	}
+
 };
 
 let deploy = function (deploy){
