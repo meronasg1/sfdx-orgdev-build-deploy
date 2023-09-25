@@ -13244,9 +13244,9 @@ const { spawnSync } = __webpack_require__(3129);
 module.exports.run = function(command, args, workingFolder = null) {
     var extraParams = {};
     
-    //extraParams.shell = true;
-    //extraParams.env = process.env;
-    //extraParams.stdio = [process.stdin, process.stdout , process.stderr];
+    extraParams.shell = true;
+    extraParams.env = process.env;
+    extraParams.stdio = [process.stdin, process.stdout , process.stderr];
     if (workingFolder) {
         extraParams.cwd = workingFolder;
     }
@@ -13287,13 +13287,13 @@ const execCommand = __webpack_require__(5505);
 var fnInstallSFDX = function () {
     
         core.info('=== Downloading SFDX cli ===');
-        execCommand.run('wget', ['https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz']);
+        execCommand.run('wget', ['https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz']);
         
         core.info('=== Creating Directory ===');
         execCommand.run('mkdir', ['-p', 'sfdx-cli']);
         
         core.info('=== Extracting Tar Archive ===');
-        execCommand.run('tar', ['xJf', 'sf-linux-x64.tar.xz', '-C', 'sfdx-cli', '--strip-components', '1']);
+        execCommand.run('tar', ['xJf', 'sfdx-linux-x64.tar.xz', '-C', 'sfdx-cli', '--strip-components', '1']);
         
         core.info('=== Running Install Script ===');
        const path = require('path');
@@ -13361,45 +13361,15 @@ let getApexTestClass = function(manifestpath, classesPath, defaultTestClass){
     return testClasses.join(",");
 }
 
-let login = function (cert, login) {
-    try {
-        core.info("=== login ===");
-        core.debug('=== Decrypting certificate');
-        execCommand.run('openssl', ['enc', '-nosalt', '-aes-256-cbc', '-d', '-in', cert.certificatePath, '-out', 'server.key', '-base64', '-K', cert.decryptionKey, '-iv', cert.decryptionIV]);
+let login = function (cert, login){
+    core.info("=== login ===");
+    core.debug('=== Decrypting certificate');
+    execCommand.run('openssl', ['enc', '-nosalt', '-aes-256-cbc', '-d', '-in', cert.certificatePath, '-out', 'server.key', '-base64', '-K', cert.decryptionKey, '-iv', cert.decryptionIV]);
 
-        core.info('==== Authenticating in the target org');
-        const instanceurl = login.orgType === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
-        core.info('Instance URL: ' + instanceurl);
-        
-        // Add debug logging for the sfdx command
-        core.debug('Executing sfdx org login jwt command:');
-        const sfdxCommand = [
-            'org', 'login', 'jwt',
-            '--instance-url', instanceurl,
-            '--clientid', login.clientId,
-            '--keyfile', 'server.key',
-            '--username', login.username,
-            '--alias', 'sfdc'
-        ];
-        core.info('sf' + sfdxCommand.join(' '));
-
-	core.info('Executing Salesforce CLI command:');
-	
-
-         // Execute the sfdx command
-        const sfdxResult = execCommand.run('sf', sfdxCommand);
-        
-        // Log the standard output and error
-        core.info('Command Output:');
-        core.info(sfdxResult.stdout);
-        core.info('Command Error:');
-        core.info(sfdxResult.stderr);
-        
-        core.info('===== After authenticating');
-    }  catch (error) {
-  	core.setFailed(error.message);
-	}
-
+    core.info('==== Authenticating in the target org');
+    const instanceurl = login.orgType === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
+    core.info('Instance URL: ' + instanceurl);
+    execCommand.run('sfdx', ['force:auth:jwt:grant', '--instanceurl', instanceurl, '--clientid', login.clientId, '--jwtkeyfile', 'server.key', '--username', login.username, '--setalias', 'sfdc']);
 };
 
 let deploy = function (deploy){
