@@ -13299,7 +13299,8 @@ var fnInstallSFDX = function () {
        const path = require('path');
         const newPath = path.join(__dirname, 'sfdx-cli', 'bin');
         process.env.PATH = `${newPath}:${process.env.PATH}`;
-
+	core.info('new path: '+ newPath);
+	core.info('new pathprocess.env.PATH: '+ process.env.PATH);
         core.info('=== SFDX cli installed ===');
     
 	
