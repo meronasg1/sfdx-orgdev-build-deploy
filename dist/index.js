@@ -13415,7 +13415,7 @@ let deploy = function (deploy){
             argsDeploy.push(deploy.testlevel);
         }
 
-        execCommand.run('sfdx', argsDeploy, sfdxRootFolder);
+        execCommand.run('sfdx-cli/bin/sfdx', argsDeploy, sfdxRootFolder);
     }
 };
 
@@ -13427,7 +13427,7 @@ let destructiveDeploy = function (deploy){
         if (deploy.checkonly) {
             argsDestructive.push('--checkonly');
         }
-        execCommand.run('sfdx', argsDestructive);
+        execCommand.run('sfdx-cli/bin/sfdx', argsDestructive);
     }
 };
 
@@ -13435,7 +13435,7 @@ let dataFactory = function (deploy){
     core.info("=== dataFactory ===");
     if (deploy.dataFactory  && !deploy.checkonly) {
         core.info('Executing data factory');
-        execCommand.run('sfdx', ['force:apex:execute', '-f', deploy.dataFactory, '-u', 'sfdc']);
+        execCommand.run('sfdx-cli/bin/sfdx', ['force:apex:execute', '-f', deploy.dataFactory, '-u', 'sfdc']);
     }
 };
 
